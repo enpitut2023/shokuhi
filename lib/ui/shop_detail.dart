@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
 
-
 class ShopDetail extends StatelessWidget {
   const ShopDetail(this.shop, {super.key});
 
@@ -12,28 +11,39 @@ class ShopDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(shop.name),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('タグ', style: TextStyle(fontSize: 20)),
-            Row(
-              children: [
-                for (var tag in shop.tags)
-                  Container(
-                    margin: const EdgeInsets.only(right: 4),
-                    child: Text(
-                      tag,
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
+      appBar: AppBar(
+        title: Text(shop.name),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('タグ', style: TextStyle(fontSize: 20)),
+          Row(
+            children: [
+              for (var tag in shop.tags)
+                Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Text(
+                    tag,
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
                     ),
-                  )
-              ],
-            )
-          ],
-        ));
+                  ),
+                ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('肉'),
+              Text(shop.evaluation.meat.toString()),
+              const Text('魚'),
+              Text(shop.evaluation.fish.toString()),
+              const Text('野菜'),
+              Text(shop.evaluation.vegetable.toString()),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

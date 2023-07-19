@@ -31,12 +31,13 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('SHOKUHI（仮）'),
       ),
-      body: const ShopList([
-        Shop(name: 'ロピア', tags: ['肉が安い', '冷食が安い']),
-        Shop(name: 'トライアル', tags: ['安そうで安い']),
-        Shop(name: 'カスミ', tags: ['行ったことない']),
-      ]),
+      body: ShopList(
+        [
+          Shop(name: 'ロピア', tags: ['肉が安い', '冷食が安い'], evaluation: Evaluation(3, 1, 2)),
+          Shop(name: 'トライアル', tags: ['安そうで安い'], evaluation: Evaluation(3, 1, 2)),
+          Shop(name: 'カスミ', tags: ['行ったことない'], evaluation: Evaluation(3, 1, 2)),
+        ],
+      ),
     );
   }
 }
-
