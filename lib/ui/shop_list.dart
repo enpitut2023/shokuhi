@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
-import 'shop_detail.dart';
 
 class ShopList extends StatelessWidget {
   const ShopList(this.shopList, {super.key});
