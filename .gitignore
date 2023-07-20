@@ -42,6 +42,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# firebaseの非公開のAPIkey
-/lib/ui/firebase_options.dart
