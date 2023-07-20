@@ -12,7 +12,10 @@ class ShopList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        for (final shop in shopList) ShopTile(shop, ),
+        for (final shop in shopList)
+          ShopTile(
+            shop,
+          ),
       ],
     );
   }
@@ -27,6 +30,7 @@ class ShopTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final openTime = shop.openTime[0];
     final closeTime = shop.closeTime[0];
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -43,9 +47,12 @@ class ShopTile extends StatelessWidget {
               // タイトル + 営業時間
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(shop.name, style: const TextStyle(fontSize: 23, fontFamily: 'Murecho', color: Color(0xFF1a237e))),
-                Text(
-                    '${openTime.hour.toString().padLeft(2, '0')}:${openTime.minute.toString().padLeft(2, '0')} ~ ${closeTime.hour.toString().padLeft(2, '0')}:${closeTime.minute.toString().padLeft(2, '0')}'),
+                Text(shop.name,
+                    style: const TextStyle(
+                        fontSize: 23,
+                        fontFamily: 'Murecho',
+                        color: Color(0xFF1a237e))),
+                Text('$openTime ~ $closeTime'),
               ],
             ),
             Row(
@@ -94,9 +101,9 @@ class ShopTile extends StatelessWidget {
                   ],
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     // その他の情報
-
                     Row(
                       children: [
                         const Icon(Icons.home),
@@ -114,7 +121,7 @@ class ShopTile extends StatelessWidget {
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -131,8 +138,10 @@ class EvaluationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (var i = 0; i < evaluation; i++) const Icon(Icons.star, color: Colors.yellow),
-        for (var i = evaluation; i < 5; i++) const Icon(Icons.star_border, color: Colors.yellow),
+        for (var i = 0; i < evaluation; i++)
+          const Icon(Icons.star, color: Colors.yellow),
+        for (var i = evaluation; i < 5; i++)
+          const Icon(Icons.star_border, color: Colors.yellow),
       ],
     );
   }
