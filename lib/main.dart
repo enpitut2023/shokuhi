@@ -1,10 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'model/shop.dart';
-import 'ui/shop_list.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,31 +20,77 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SHOKUHI（仮）',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Home(),
+    return const MaterialApp(
+      home: MyWidget(),
     );
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SHOKUHI（仮）'),
-      ),
-      body: ShopList(
-        [
-          Shop(name: 'ロピア', tags: ['肉が安い', '冷食が安い'], evaluation: Evaluation(3, 1, 2)),
-          Shop(name: 'トライアル', tags: ['安そうで安い'], evaluation: Evaluation(3, 1, 2)),
-          Shop(name: 'カスミ', tags: ['行ったことない'], evaluation: Evaluation(3, 1, 2)),
-        ],
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Container(
+                height: double.infinity,
+                alignment: Alignment.topCenter,
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('shop_list')
+                      .orderBy('shop_tel')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('エラーが発生しました');
+                    }
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final list = snapshot.requireData.docs
+                        .map<String>((DocumentSnapshot document) {
+                      final documentData =
+                      document.data()! as Map<String, dynamic>;
+                      return documentData['shop_name']! as String;
+                    }).toList();
+
+                    final reverseList = list.reversed.toList();
+
+                    return ListView.builder(
+                      itemCount: reverseList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Center(
+                          child: Text(
+                            reverseList[index],
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
