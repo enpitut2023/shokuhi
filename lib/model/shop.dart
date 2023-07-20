@@ -13,8 +13,8 @@ class Shop {
   final Evaluation evaluation;
   final String address;
   final String telephoneNumber;
-  final List<DateTime> openTime; // 営業開始時間 0:月, 6:日
-  final List<DateTime> closeTime; // 営業終了時間 0:月, 6:日
+  final List<String> openTime; // 営業開始時間 0:月, 6:日
+  final List<String> closeTime; // 営業終了時間 0:月, 6:日
 }
 
 class Evaluation {

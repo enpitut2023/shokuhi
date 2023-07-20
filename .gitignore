@@ -45,3 +45,4 @@ app.*.map.json
 
 # firebaseの非公開のAPIkey
 /lib/ui/firebase_options.dart
+/lib/firebase_options.dart
