@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'firebase_options.dart';
 import 'model/shop.dart';
 import 'ui/shop_list.dart';
 
@@ -13,8 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
     return MaterialApp(
       title: 'SHOKUHI（仮）',
       theme: ThemeData(
@@ -30,28 +27,55 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ケッチー（仮）'),
+
+    final shopList = [
+      Shop(
+        name: 'ロピア',
+        tags: ['肉が安い', '冷食が安い'],
+        address: '春日らへん',
+        telephoneNumber: '0120-107-929',
+        openTime: [DateTime.utc(0,0,0,9,0)],
+        closeTime: [DateTime.utc(0,0,0,19,0)],
+        evaluation: Evaluation(
+          meat: 1,
+          fish: 2,
+          vegetable: 3,
+          frozenFood: 4,
+          dairy: 5,
+        ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Text('エラーが発生しました');
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      Shop(
+        name: 'トライアル',
+        tags: ['野菜が安い', '肉が安い'],
+        address: '学園の森',
+        telephoneNumber: '0120-',
+        openTime: [DateTime.utc(0,0,0,9,0)],
+        closeTime: [DateTime.utc(0,0,0,19,0)],
+        evaluation: Evaluation(
+          meat: 5,
+          fish: 4,
+          vegetable: 3,
+          frozenFood: 2,
+          dairy: 1,
+        ),
+      ),
+      Shop(
+        name: 'カスミ',
+        tags: ['卵が安い', '冷食が安い'],
+        address: '平砂',
+        telephoneNumber: '',
+        openTime: [DateTime.utc(0,0,0,9,0)],
+        closeTime: [DateTime.utc(0,0,0,19,0)],
+        evaluation: Evaluation(
+          meat: 2,
+          fish: 2,
+          vegetable: 2,
+          frozenFood: 2,
+          dairy: 2,
+        ),
+      ),
+    ];
 
-          final shopList =
-              snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
-            final data = document.data()! as Map<String, dynamic>;
-            return Shop.fromMap(data);
-          }).toList();
-
-          return ShopList(shopList);
-        },
     return Scaffold(
       appBar: AppBar(
         title: const Text('SHOKUHI（仮）'),
