@@ -1,6 +1,7 @@
 class Shop {
   const Shop(
       {required this.name,
+      required this.t,
       required this.tags,
       required this.evaluation,
       required this.address,
@@ -10,6 +11,7 @@ class Shop {
 
   final String name;
   final List<String> tags;
+  final List<Tag> t;
   final Evaluation evaluation;
   final String address;
   final String telephoneNumber;
@@ -18,6 +20,7 @@ class Shop {
 
   Shop.fromMap(Map<String, dynamic> data)
       : name = data['shop_name'],
+        t = [],
         tags = ['tag1', 'tag2'],
         evaluation = Evaluation(
           meat: 0,
@@ -61,4 +64,15 @@ class Evaluation {
   int vegetable = 0;
   int frozenFood = 0;
   int dairy = 0;
+}
+
+class Tag {
+  Tag(
+      {required this.id,
+        required this.name,
+        required this.value});
+
+  final String id;
+  final String name;
+  final int value;
 }
