@@ -29,12 +29,12 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -44,39 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: String.fromEnvironment("netlify_web_apiKey"),
-    appId: String.fromEnvironment("netlify_appId"),
-    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
-    projectId: String.fromEnvironment("netlify_projectId"),
-    authDomain: String.fromEnvironment("netlify_authDomain"),
-    storageBucket: String.fromEnvironment("netlify_storageBucket"),
+    apiKey: 'AIzaSyDygpqEsXAcT1s8VAMtG_cUbs8Vxybo3Ao',
+    appId: '1:101982381996:web:a1774f29b17ce8682b3c09',
+    messagingSenderId: '101982381996',
+    projectId: 'shokuhi-52960',
+    authDomain: 'shokuhi-52960.firebaseapp.com',
+    storageBucket: 'shokuhi-52960.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: String.fromEnvironment("netlify_android_apiKey"),
-    appId: String.fromEnvironment("netlify_appId"),
-    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
-    projectId: String.fromEnvironment("netlify_projectId"),
-    storageBucket: String.fromEnvironment("netlify_storageBucket"),
+    apiKey: 'AIzaSyDjkTSpobIVGox5E7W9kXEawJipBVX82RU',
+    appId: '1:101982381996:android:e93e4b8fefa656e22b3c09',
+    messagingSenderId: '101982381996',
+    projectId: 'shokuhi-52960',
+    storageBucket: 'shokuhi-52960.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: String.fromEnvironment("netlify_ios_apiKey"),
-    appId: String.fromEnvironment("netlify_appId"),
-    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
-    projectId: String.fromEnvironment("netlify_projectId"),
-    storageBucket: String.fromEnvironment("netlify_storageBucket"),
-    iosClientId: String.fromEnvironment("netlify_iosClientId"),
-    iosBundleId: String.fromEnvironment("netlify_iosBundleId"),
+    apiKey: 'AIzaSyBLqaWI8jKGgYUsIItqi4-Rz9yGpx9Aiss',
+    appId: '1:101982381996:ios:ee7ea795d7f76de82b3c09',
+    messagingSenderId: '101982381996',
+    projectId: 'shokuhi-52960',
+    storageBucket: 'shokuhi-52960.appspot.com',
+    iosClientId: '101982381996-0ufp6hvipju3v7bqo59ij2juqkgk7kiu.apps.googleusercontent.com',
+    iosBundleId: 'com.example.shokuhi',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: String.fromEnvironment("netlify_macos_apiKey"),
-    appId: String.fromEnvironment("netlify_appId"),
-    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
-    projectId: String.fromEnvironment("netlify_projectId"),
-    storageBucket: String.fromEnvironment("netlify_storageBucket"),
-    iosClientId: String.fromEnvironment("netlify_iosClientId"),
-    iosBundleId: String.fromEnvironment("netlify_iosBundleId"),
+    apiKey: 'AIzaSyBLqaWI8jKGgYUsIItqi4-Rz9yGpx9Aiss',
+    appId: '1:101982381996:ios:ee7ea795d7f76de82b3c09',
+    messagingSenderId: '101982381996',
+    projectId: 'shokuhi-52960',
+    storageBucket: 'shokuhi-52960.appspot.com',
+    iosClientId: '101982381996-0ufp6hvipju3v7bqo59ij2juqkgk7kiu.apps.googleusercontent.com',
+    iosBundleId: 'com.example.shokuhi',
   );
 }
