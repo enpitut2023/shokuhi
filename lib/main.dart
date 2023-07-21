@@ -35,7 +35,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(const String.fromEnvironment("netlify_iosBundleId")),
+        title: Text(process.env.netlify_iosBundleId),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
