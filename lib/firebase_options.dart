@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: process.env.netlify_web_apiky,
+    apiKey: String.fromEnvironment('netlify_web_apikey'),
     appId: '1:101982381996:web:a1774f29b17ce8682b3c09',
     messagingSenderId: '101982381996',
     projectId: 'shokuhi-52960',
