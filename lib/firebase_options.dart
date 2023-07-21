@@ -44,39 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'netlify_web_apiKey',
-    appId: 'netlify_appId',
-    messagingSenderId: 'netlify_messagingSenderId',
-    projectId: 'netlify_projectId',
-    authDomain: 'netlify_authDomain',
-    storageBucket: 'netlify_storageBucket',
+    apiKey: String.fromEnvironment("netlify_web_apiKey"),
+    appId: String.fromEnvironment("netlify_appId"),
+    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
+    projectId: String.fromEnvironment("netlify_projectId"),
+    authDomain: String.fromEnvironment("netlify_authDomain"),
+    storageBucket: String.fromEnvironment("netlify_storageBucket"),
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'netlify_android_apiKey',
-    appId: 'netlify_appId',
-    messagingSenderId: 'netlify_messagingSenderId',
-    projectId: 'netlify_projectId',
-    storageBucket: 'netlify_storageBucket',
+    apiKey: String.fromEnvironment("netlify_android_apiKey"),
+    appId: String.fromEnvironment("netlify_appId"),
+    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
+    projectId: String.fromEnvironment("netlify_projectId"),
+    storageBucket: String.fromEnvironment("netlify_storageBucket"),
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'netlify_ios_apiKey',
-    appId: 'netlify_appId',
-    messagingSenderId: 'netlify_messagingSenderId',
-    projectId: 'netlify_projectId',
-    storageBucket: 'netlify_storageBucket',
-    iosClientId: 'netlify_iosClientId',
-    iosBundleId: 'netlify_iosBundleId',
+    apiKey: String.fromEnvironment("netlify_ios_apiKey"),
+    appId: String.fromEnvironment("netlify_appId"),
+    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
+    projectId: String.fromEnvironment("netlify_projectId"),
+    storageBucket: String.fromEnvironment("netlify_storageBucket"),
+    iosClientId: String.fromEnvironment("netlify_iosClientId"),
+    iosBundleId: String.fromEnvironment("netlify_iosBundleId"),
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'netlify_macos_apiKey',
-    appId: 'netlify_appId',
-    messagingSenderId: 'netlify_messagingSenderId',
-    projectId: 'netlify_projectId',
-    storageBucket: 'netlify_storageBucket',
-    iosClientId: 'netlify_iosClientId',
-    iosBundleId: 'netlify_iosBundleId',
+    apiKey: String.fromEnvironment("netlify_macos_apiKey"),
+    appId: String.fromEnvironment("netlify_appId"),
+    messagingSenderId: String.fromEnvironment("netlify_messagingSenderId"),
+    projectId: String.fromEnvironment("netlify_projectId"),
+    storageBucket: String.fromEnvironment("netlify_storageBucket"),
+    iosClientId: String.fromEnvironment("netlify_iosClientId"),
+    iosBundleId: String.fromEnvironment("netlify_iosBundleId"),
   );
 }
