@@ -14,9 +14,8 @@ class Shop {
   final List<String> openTime; // 営業開始時間 0:月, 6:日
   final List<String> closeTime; // 営業終了時間 0:月, 6:日
 
-  Shop.fromMap(Map<String, dynamic> data)
+  Shop.fromMap(Map<String, dynamic> data, this.evaluationList)
       : name = data['shop_name'],
-        evaluationList = [],
         address = data['shop_address'],
         telephoneNumber = data['shop_tel'],
         openTime = [
