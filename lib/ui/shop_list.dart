@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
+import 'shop_detail.dart';
 
 class ShopList extends StatelessWidget {
   const ShopList(this.shopList, {super.key});
@@ -62,41 +63,14 @@ class ShopTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 評価
-                    Row(children: [
-                      const SizedBox(
-                        width: 100,
-                        child: Text('肉'),
-                      ),
-                      EvaluationWidget(shop.evaluation.meat)
-                    ]),
-                    Row(children: [
-                      const SizedBox(
-                        width: 100,
-                        child: Text('魚'),
-                      ),
-                      EvaluationWidget(shop.evaluation.fish)
-                    ]),
-                    Row(children: [
-                      const SizedBox(
-                        width: 100,
-                        child: Text('野菜'),
-                      ),
-                      EvaluationWidget(shop.evaluation.vegetable)
-                    ]),
-                    Row(children: [
-                      const SizedBox(
-                        width: 100,
-                        child: Text('冷食'),
-                      ),
-                      EvaluationWidget(shop.evaluation.frozenFood)
-                    ]),
-                    Row(children: [
-                      const SizedBox(
-                        width: 100,
-                        child: Text('卵・乳製品'),
-                      ),
-                      EvaluationWidget(shop.evaluation.dairy)
-                    ]),
+                    for (var evaluation in shop.evaluationList)
+                      Row(children: [
+                        SizedBox(
+                          width: 100,
+                          child: Text(evaluation.name),
+                        ),
+                        EvaluationWidget(evaluation.value)
+                      ]),
                   ],
                 ),
                 Column(
@@ -115,8 +89,6 @@ class ShopTile extends StatelessWidget {
                         Text(shop.telephoneNumber),
                       ],
                     ),
-                    for (final tag in shop.tags)
-                      TextButton(onPressed: () {}, child: Text(tag)),
                   ],
                 ),
               ],
