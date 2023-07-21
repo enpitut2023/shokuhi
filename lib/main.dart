@@ -8,11 +8,6 @@ import 'model/shop.dart';
 import 'ui/shop_list.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
   runApp(const MyApp());
 }
 
@@ -36,24 +31,12 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ケッチー（仮）'),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Text('エラーが発生しました');
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: ShopList(
+        [
+          Shop(name: 'カスミ学園店', evaluationList: [Evaluation(id: '1', name: 'name', value: 3)], address:'茨城県つくば市天久保３丁目２ー１', telephoneNumber: '０２９ー１２３４ー５６７８', openTime: ['１０；００'], closeTime: ['２０:００']),
+          Shop(name: 'トライアル', evaluationList: [Evaluation(id: '1', name: 'name', value: 4)], address:'茨城県つくば市学園の森３丁目２ー１', telephoneNumber: '０２９ー１２３４ー５６７８', openTime: ['９；００'], closeTime: ['２４:００'])
 
-          final shopList =
-              snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
-            final data = document.data()! as Map<String, dynamic>;
-            return Shop.fromMap(data);
-          }).toList();
-
-          return ShopList(shopList);
-        },
+        ]
       )
     );
   }

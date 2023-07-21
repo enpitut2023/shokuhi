@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
@@ -63,13 +65,13 @@ class ShopTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 評価
-                    for (var evaluation in shop.evaluationList)
+                    for (final name in ['肉', '魚','野菜','冷凍','卵乳製品'])
                       Row(children: [
                         SizedBox(
                           width: 100,
-                          child: Text(evaluation.name),
+                          child: Text(name),
                         ),
-                        EvaluationWidget(evaluation.value)
+                        EvaluationWidget(1)
                       ]),
                   ],
                 ),
@@ -101,17 +103,19 @@ class ShopTile extends StatelessWidget {
 }
 
 class EvaluationWidget extends StatelessWidget {
-  const EvaluationWidget(this.evaluation, {super.key});
 
-  final int evaluation;
+  final int value;
+
+  const EvaluationWidget(this.value, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final val = Random().nextInt(5);
     return Row(
       children: [
-        for (var i = 0; i < evaluation; i++)
+        for (var i = 0; i < val; i++)
           const Icon(Icons.star, color: Colors.yellow),
-        for (var i = evaluation; i < 5; i++)
+        for (var i = val; i < 5; i++)
           const Icon(Icons.star_border, color: Colors.yellow),
       ],
     );
