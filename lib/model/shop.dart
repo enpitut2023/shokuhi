@@ -1,18 +1,14 @@
 class Shop {
   const Shop(
       {required this.name,
-      required this.t,
-      required this.tags,
-      required this.evaluation,
+      required this.evaluationList,
       required this.address,
       required this.telephoneNumber,
       required this.openTime,
       required this.closeTime});
 
   final String name;
-  final List<String> tags;
-  final List<Tag> t;
-  final Evaluation evaluation;
+  final List<Evaluation> evaluationList;
   final String address;
   final String telephoneNumber;
   final List<String> openTime; // 営業開始時間 0:月, 6:日
@@ -20,15 +16,7 @@ class Shop {
 
   Shop.fromMap(Map<String, dynamic> data)
       : name = data['shop_name'],
-        t = [],
-        tags = ['tag1', 'tag2'],
-        evaluation = Evaluation(
-          meat: 0,
-          fish: 0,
-          vegetable: 0,
-          frozenFood: 0,
-          dairy: 0,
-        ),
+        evaluationList = [],
         address = data['shop_address'],
         telephoneNumber = data['shop_tel'],
         openTime = [
@@ -53,21 +41,6 @@ class Shop {
 
 class Evaluation {
   Evaluation(
-      {required this.meat,
-      required this.fish,
-      required this.vegetable,
-      required this.frozenFood,
-      required this.dairy});
-
-  int meat = 0;
-  int fish = 0;
-  int vegetable = 0;
-  int frozenFood = 0;
-  int dairy = 0;
-}
-
-class Tag {
-  Tag(
       {required this.id,
         required this.name,
         required this.value});
