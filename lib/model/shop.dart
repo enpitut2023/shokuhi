@@ -16,7 +16,14 @@ class Shop {
 
   Shop.fromMap(Map<String, dynamic> data)
       : name = data['shop_name'],
-        evaluationList = [],
+        tags = ['tag1', 'tag2'],
+        evaluation = Evaluation(
+          meat: 2,
+          fish: 3,
+          vegetable: 4,
+          frozenFood: 2,
+          dairy: 3,
+        ),
         address = data['shop_address'],
         telephoneNumber = data['shop_tel'],
         openTime = [

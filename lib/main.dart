@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,15 +31,28 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ケッチー（仮）'),
+        title: const Text(String.fromEnvironment("netlify_iosBundleId")),
       ),
-      body: ShopList(
-        [
-          Shop(name: 'カスミ学園店', evaluationList: [Evaluation(id: '1', name: 'name', value: 3)], address:'茨城県つくば市天久保３丁目２ー１', telephoneNumber: '０２９ー１２３４ー５６７８', openTime: ['１０；００'], closeTime: ['２０:００']),
-          Shop(name: 'トライアル', evaluationList: [Evaluation(id: '1', name: 'name', value: 4)], address:'茨城県つくば市学園の森３丁目２ー１', telephoneNumber: '０２９ー１２３４ー５６７８', openTime: ['９；００'], closeTime: ['２４:００'])
 
-        ]
-      )
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('エラーが発生しました');
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final shopList =
+          snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
+            final data = document.data()! as Map<String, dynamic>;
+            return Shop.fromMap(data);
+          }).toList();
+
+          return ShopList(shopList);
+        },
+      ),
     );
   }
 }
