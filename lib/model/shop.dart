@@ -1,16 +1,14 @@
 class Shop {
   const Shop(
       {required this.name,
-      required this.tags,
-      required this.evaluation,
+      required this.evaluationList,
       required this.address,
       required this.telephoneNumber,
       required this.openTime,
       required this.closeTime});
 
   final String name;
-  final List<String> tags;
-  final Evaluation evaluation;
+  final List<Evaluation> evaluationList;
   final String address;
   final String telephoneNumber;
   final List<String> openTime; // 営業開始時間 0:月, 6:日
@@ -50,15 +48,11 @@ class Shop {
 
 class Evaluation {
   Evaluation(
-      {required this.meat,
-      required this.fish,
-      required this.vegetable,
-      required this.frozenFood,
-      required this.dairy});
+      {required this.id,
+        required this.name,
+        required this.value});
 
-  int meat = 0;
-  int fish = 0;
-  int vegetable = 0;
-  int frozenFood = 0;
-  int dairy = 0;
+  final String id;
+  final String name;
+  final int value;
 }
