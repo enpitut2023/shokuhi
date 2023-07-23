@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +36,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ケッチー（仮）'),
+        title: const Text(String.fromEnvironment("netlify_iosBundleId")),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
@@ -47,14 +49,14 @@ class Home extends StatelessWidget {
           }
 
           final shopList =
-              snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
+          snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
             final data = document.data()! as Map<String, dynamic>;
             return Shop.fromMap(data);
           }).toList();
 
           return ShopList(shopList);
         },
-      )
+      ),
     );
   }
 }
