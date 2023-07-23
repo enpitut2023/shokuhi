@@ -10,11 +10,6 @@ import 'model/shop.dart';
 import 'ui/shop_list.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
   runApp(const MyApp());
 }
 
@@ -38,6 +33,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text(String.fromEnvironment("netlify_iosBundleId")),
       ),
+
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
         builder: (context, snapshot) {
