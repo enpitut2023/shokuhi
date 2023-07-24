@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
@@ -32,7 +31,9 @@ class ShopDetailBody extends StatelessWidget {
         // 営業時間を表示
         Text('営業時間'),
         SizedBox(height: 4),
-        for (var widget in buildOpeningHoursWidgets(shop.openTime, shop.closeTime)) widget,
+        for (var widget
+            in buildOpeningHoursWidgets(shop.openTime, shop.closeTime))
+          widget,
         SizedBox(height: 16),
         // 電話番号を表示
         Text('電話番号'),
@@ -48,7 +49,8 @@ class ShopDetailBody extends StatelessWidget {
   }
 
   // 営業時間のウィジェットを生成するメソッド
-  List<Widget> buildOpeningHoursWidgets(List<String> openTime, List<String> closeTime) {
+  List<Widget> buildOpeningHoursWidgets(
+      List<String> openTime, List<String> closeTime) {
     const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
     List<Widget> openingHoursWidgets = [];
     for (int i = 0; i < openTime.length; i++) {
