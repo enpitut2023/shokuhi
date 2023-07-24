@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -77,8 +78,7 @@ class Home extends StatelessWidget {
               return await Future.wait(docs.map<Future<Shop>>((DocumentSnapshot document) async {
                 final data = document.data()! as Map<String, dynamic>;
                 final id = document.id;
-                List<Evaluation> evals = await getEvaluations(id);
-                return Shop.fromMap(data, evals);
+                return Shop.fromMap(data, await getEvaluations(id));
               }).toList());
             }
 
@@ -93,16 +93,8 @@ class Home extends StatelessWidget {
                   return Center(child: Text('No data available'));
                 }
 
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final shop = snapshot.data![index];
-                    return ListTile(
-                      title: Text(shop.name),
-                      subtitle: Text(shop.address),
-                      trailing: Text('Rating:'),
-                    );
-                  },
+                return ShopList(
+                    snapshot.data as List<Shop>
                 );
               },
             );
