@@ -44,13 +44,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(evaluationList),
+      home: Home2(evaluationList),
     );
   }
 }
 
-class Home extends StatelessWidget {
-  const Home(this.evaluationList,{super.key});
+class Home2 extends StatelessWidget {
+  const Home2(this.evaluationList,{super.key});
 
   final Map<String, String> evaluationList;
 
@@ -90,9 +90,8 @@ class Home extends StatelessWidget {
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No data available'));
                 }
-
                 return Home(
-                    snapshot.data as List<Shop>
+                    snapshot.requireData
                 );
               },
             );
