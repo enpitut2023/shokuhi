@@ -62,3 +62,47 @@ class ShopDetailBody extends StatelessWidget {
     return openingHoursWidgets;
   }
 }
+
+class ShopDetailBody extends StatelessWidget {
+  const ShopDetailBody(this.shop, {super.key});
+
+  final Shop shop;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 営業時間を表示
+        Text('営業時間'),
+        SizedBox(height: 4),
+        for (var widget in buildOpeningHoursWidgets(shop.openTime, shop.closeTime)) widget,
+        SizedBox(height: 16),
+        // 電話番号を表示
+        Text('電話番号'),
+        SizedBox(height: 4),
+        Text(shop.telephoneNumber),
+        SizedBox(height: 16),
+        // 住所を表示
+        Text('住所'),
+        SizedBox(height: 4),
+        Text(shop.address),
+      ],
+    );
+  }
+
+  // 営業時間のウィジェットを生成するメソッド
+  List<Widget> buildOpeningHoursWidgets(List<String> openTime, List<String> closeTime) {
+    const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
+    List<Widget> openingHoursWidgets = [];
+    for (int i = 0; i < openTime.length; i++) {
+      final open = openTime[i];
+      final close = closeTime[i];
+      final day = daysOfWeek[i];
+      openingHoursWidgets.add(
+        Text('$day: $open 〜 $close'),
+      );
+    }
+    return openingHoursWidgets;
+  }
+}

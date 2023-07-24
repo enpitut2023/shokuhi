@@ -1,13 +1,11 @@
 
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:shokuhi/ui/home.dart';
 
 import 'firebase_options.dart';
 import 'model/shop.dart';
-import 'ui/shop_list.dart';
-
-Map<String, String> evaluationList = {};
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +91,7 @@ class Home extends StatelessWidget {
                   return Center(child: Text('No data available'));
                 }
 
-                return ShopList(
+                return Home(
                     snapshot.data as List<Shop>
                 );
               },
