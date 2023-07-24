@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_map/plugin_api.dart';
+import 'package:latlong2/latlong.dart';
 import '../model/shop.dart';
 
 class ShopDetail extends StatelessWidget {
@@ -13,54 +14,30 @@ class ShopDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(shop.name),
       ),
-      body: ShopDetailBody(shop),
+      body: MapWidget(1,2),
     );
   }
 }
 
-class ShopDetailBody extends StatelessWidget {
-  const ShopDetailBody(this.shop, {super.key});
+class MapWidget extends StatelessWidget {
+  const MapWidget(this.longitude, this.latitude, {super.key});
 
-  final Shop shop;
+  final double longitude;
+  final double latitude;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return FlutterMap(
+      options: MapOptions(
+        center: LatLng(latitude, longitude),
+        zoom: 15.2,
+      ),
       children: [
-        // 営業時間を表示
-        Text('営業時間'),
-        SizedBox(height: 4),
-        for (var widget
-            in buildOpeningHoursWidgets(shop.openTime, shop.closeTime))
-          widget,
-        SizedBox(height: 16),
-        // 電話番号を表示
-        Text('電話番号'),
-        SizedBox(height: 4),
-        Text(shop.telephoneNumber),
-        SizedBox(height: 16),
-        // 住所を表示
-        Text('住所'),
-        SizedBox(height: 4),
-        Text(shop.address),
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.app',
+        ),
       ],
     );
-  }
-
-  // 営業時間のウィジェットを生成するメソッド
-  List<Widget> buildOpeningHoursWidgets(
-      List<String> openTime, List<String> closeTime) {
-    const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
-    List<Widget> openingHoursWidgets = [];
-    for (int i = 0; i < openTime.length; i++) {
-      final open = openTime[i];
-      final close = closeTime[i];
-      final day = daysOfWeek[i];
-      openingHoursWidgets.add(
-        Text('$day: $open 〜 $close'),
-      );
-    }
-    return openingHoursWidgets;
   }
 }
