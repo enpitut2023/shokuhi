@@ -30,8 +30,12 @@ class _HomeState extends State<Home> {
                   sortKey,
                   (String value){
             setState(() {
-              // TODO: ソート処理を書く
               sortKey = value;
+              shopList.sort((a, b){
+                final ev1 = a.evaluationList.firstWhere((element) => element.name == sortKey);
+                final ev2 = b.evaluationList.firstWhere((element) => element.name == sortKey);
+                return ev2.value.compareTo(ev1.value);
+              });
             });
           }),
         ],
