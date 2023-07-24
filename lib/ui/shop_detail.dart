@@ -25,95 +25,50 @@ class ShopDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // 営業時間を表示
-        Text('営業時間'),
-        SizedBox(height: 4),
-        for (var widget
-            in buildOpeningHoursWidgets(shop.openTime, shop.closeTime))
-          widget,
-        SizedBox(height: 16),
-        // 電話番号を表示
-        Text('電話番号'),
-        SizedBox(height: 4),
-        Text(shop.telephoneNumber),
-        SizedBox(height: 16),
-        // 住所を表示
-        Text('住所'),
-        SizedBox(height: 4),
-        Text(shop.address),
-      ],
-    );
 
-    // return GestureDetector(
-    //   onTap: () {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => ShopDetail(shop),
-    //       ),
-    //     );
-    //   },
-    //   child: Card(
-    //     child: Column(
-    //       children: [
-    //         Row(
-    //           // タイトル + 営業時間
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Text(shop.name,
-    //                 style: const TextStyle(
-    //                     fontSize: 23,
-    //                     fontFamily: 'Murecho',
-    //                     color: Color(0xFF1a237e))),
-    //             Text('$openTime ~ $closeTime'),
-    //           ],
-    //         ),
-    //         Row(
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 // 評価
-    //                 for (final evaluation in shop.evaluationList)
-    //                   Row(children: [
-    //                     SizedBox(
-    //                       width: 100,
-    //                       child: Text(evaluation.name),
-    //                     ),
-    //                     EvaluationWidget(evaluation.value, (sortKey == evaluation.name) ? Colors.cyan : Colors.cyan[100]!),
-    //                   ]),
-    //               ],
-    //             ),
-    //             Column(
-    //               crossAxisAlignment: CrossAxisAlignment.end,
-    //               children: [
-    //                 // その他の情報
-    //                 Row(
-    //                   children: [
-    //                     const Icon(Icons.home),
-    //                     Text(shop.address),
-    //                   ],
-    //                 ),
-    //                 Row(
-    //                   children: [
-    //                     const Icon(Icons.phone),
-    //                     Text(shop.telephoneNumber),
-    //                   ],
-    //                 ),
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-  //}
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShopDetail(shop),
+          ),
+        );
+      },
+      child: Card(
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 営業時間を表示
+                    Text('営業時間'),
+                    SizedBox(height: 4),
+                    for (var widget
+                    in buildOpeningHoursWidgets(shop.openTime, shop.closeTime))
+                      widget,
+                    SizedBox(height: 16),
+                    // 電話番号を表示
+                    Text('電話番号'),
+                    SizedBox(height: 4),
+                    Text(shop.telephoneNumber),
+                    SizedBox(height: 16),
+                    // 住所を表示
+                    Text('住所'),
+                    SizedBox(height: 4),
+                    Text(shop.address),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // 営業時間のウィジェットを生成するメソッド
