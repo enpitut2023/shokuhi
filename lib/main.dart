@@ -3,11 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shokuhi/ui/home.dart';
+import 'package:shokuhi/ui/position.dart';
 
 import 'firebase_options.dart';
 import 'model/shop.dart';
 
 void main() async {
+  determinePosition();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
