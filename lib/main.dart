@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:shokuhi/ui/home.dart';
 
 import 'firebase_options.dart';
 import 'model/shop.dart';
-import 'ui/shop_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,23 +19,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
-    );
-  }
-}
-
-class Home extends StatelessWidget {
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(String.fromEnvironment("netlify_iosBundleId")),
-      ),
-
-      body: StreamBuilder<QuerySnapshot>(
+    return MaterialApp(
+      home: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -49,12 +31,12 @@ class Home extends StatelessWidget {
           }
 
           final shopList =
-          snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
+              snapshot.requireData.docs.map<Shop>((DocumentSnapshot document) {
             final data = document.data()! as Map<String, dynamic>;
             return Shop.fromMap(data);
           }).toList();
 
-          return ShopList(shopList);
+          return Home(shopList);
         },
       ),
     );
