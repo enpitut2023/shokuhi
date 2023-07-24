@@ -65,13 +65,13 @@ class ShopTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 評価
-                    for (final name in ['肉', '魚','野菜','冷凍','卵乳製品'])
+                    for (final evaluation in shop.evaluationList)
                       Row(children: [
                         SizedBox(
                           width: 100,
-                          child: Text(name),
+                          child: Text(evaluation.name),
                         ),
-                        EvaluationWidget(1)
+                        EvaluationWidget(evaluation.value),
                       ]),
                   ],
                 ),
@@ -110,12 +110,11 @@ class EvaluationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final val = Random().nextInt(5);
     return Row(
       children: [
-        for (var i = 0; i < val; i++)
+        for (var i = 0; i < value; i++)
           const Icon(Icons.star, color: Colors.yellow),
-        for (var i = val; i < 5; i++)
+        for (var i = value; i < 5; i++)
           const Icon(Icons.star_border, color: Colors.yellow),
       ],
     );
