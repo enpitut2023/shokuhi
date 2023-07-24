@@ -14,7 +14,7 @@ class ShopDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(shop.name),
       ),
-      body: MapWidget(1,2),
+      body: MapWidget(shop.longitude, shop.latitude),
     );
   }
 }
@@ -37,6 +37,16 @@ class MapWidget extends StatelessWidget {
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
         ),
+        MarkerLayer(
+          markers: [
+            Marker(
+              point: LatLng(latitude, longitude),
+              builder: (context) {
+                return const Icon(Icons.location_on);
+              },
+            )
+          ],
+        )
       ],
     );
   }
