@@ -25,7 +25,6 @@ class ShopDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -42,7 +41,7 @@ class ShopDetailBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                  Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 営業時間を表示
@@ -62,7 +61,16 @@ class ShopDetailBody extends StatelessWidget {
                     SizedBox(height: 4),
                     Text(shop.address),
                   ],
-                ),
+                ), //ここにマップを追加する
+              ],
+            ),
+            const Text('評価'),
+
+            const Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircularNumberWidget(number: 5)
               ],
             ),
           ],
@@ -72,8 +80,8 @@ class ShopDetailBody extends StatelessWidget {
   }
 
   // 営業時間のウィジェットを生成するメソッド
-  List<Widget> buildOpeningHoursWidgets(
-      List<String> openTime, List<String> closeTime) {
+  List<Widget> buildOpeningHoursWidgets(List<String> openTime,
+      List<String> closeTime) {
     const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
     List<Widget> openingHoursWidgets = [];
     for (int i = 0; i < openTime.length; i++) {
@@ -85,5 +93,38 @@ class ShopDetailBody extends StatelessWidget {
       );
     }
     return openingHoursWidgets;
+  }
+}
+
+class CircularNumberWidget extends StatelessWidget {
+  final int number;
+  final double size;
+  final Color color;
+
+  const CircularNumberWidget({super.key,
+    required this.number,
+    this.size = 100.0,
+    this.color = Colors.blue,
+    });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+      color: color,
+      shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+        '$number',
+          style: const TextStyle(
+          fontSize: 30,
+          color: Colors.white,
+          ),
+        ),
+      ),
+    );
   }
 }
