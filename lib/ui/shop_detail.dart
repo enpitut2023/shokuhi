@@ -46,6 +46,74 @@ class ShopDetailBody extends StatelessWidget {
         Text(shop.address),
       ],
     );
+
+    // return GestureDetector(
+    //   onTap: () {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => ShopDetail(shop),
+    //       ),
+    //     );
+    //   },
+    //   child: Card(
+    //     child: Column(
+    //       children: [
+    //         Row(
+    //           // タイトル + 営業時間
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Text(shop.name,
+    //                 style: const TextStyle(
+    //                     fontSize: 23,
+    //                     fontFamily: 'Murecho',
+    //                     color: Color(0xFF1a237e))),
+    //             Text('$openTime ~ $closeTime'),
+    //           ],
+    //         ),
+    //         Row(
+    //           crossAxisAlignment: CrossAxisAlignment.center,
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 // 評価
+    //                 for (final evaluation in shop.evaluationList)
+    //                   Row(children: [
+    //                     SizedBox(
+    //                       width: 100,
+    //                       child: Text(evaluation.name),
+    //                     ),
+    //                     EvaluationWidget(evaluation.value, (sortKey == evaluation.name) ? Colors.cyan : Colors.cyan[100]!),
+    //                   ]),
+    //               ],
+    //             ),
+    //             Column(
+    //               crossAxisAlignment: CrossAxisAlignment.end,
+    //               children: [
+    //                 // その他の情報
+    //                 Row(
+    //                   children: [
+    //                     const Icon(Icons.home),
+    //                     Text(shop.address),
+    //                   ],
+    //                 ),
+    //                 Row(
+    //                   children: [
+    //                     const Icon(Icons.phone),
+    //                     Text(shop.telephoneNumber),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
+  //}
   }
 
   // 営業時間のウィジェットを生成するメソッド
