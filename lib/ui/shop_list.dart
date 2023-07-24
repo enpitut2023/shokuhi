@@ -1,13 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import '../model/shop.dart';
 import 'shop_detail.dart';
 
 class ShopList extends StatelessWidget {
-  const ShopList(this.shopList, {super.key});
+  const ShopList(this.shopList, this.sortKey, {super.key});
 
+  final String sortKey;
   final List<Shop> shopList;
 
   @override
@@ -16,6 +15,7 @@ class ShopList extends StatelessWidget {
       children: [
         for (final shop in shopList)
           ShopTile(
+            sortKey,
             shop,
           ),
       ],
@@ -24,8 +24,9 @@ class ShopList extends StatelessWidget {
 }
 
 class ShopTile extends StatelessWidget {
-  const ShopTile(this.shop, {super.key});
+  const ShopTile(this.sortKey, this.shop, {super.key});
 
+  final String sortKey;
   final Shop shop;
 
   @override
@@ -71,7 +72,7 @@ class ShopTile extends StatelessWidget {
                           width: 100,
                           child: Text(evaluation.name),
                         ),
-                        EvaluationWidget(evaluation.value),
+                        EvaluationWidget(evaluation.value, (sortKey == evaluation.name) ? Colors.cyan : Colors.cyan[100]!),
                       ]),
                   ],
                 ),
@@ -103,19 +104,17 @@ class ShopTile extends StatelessWidget {
 }
 
 class EvaluationWidget extends StatelessWidget {
-
   final int value;
+  final Color color;
 
-  const EvaluationWidget(this.value, {Key? key}) : super(key: key);
+  const EvaluationWidget(this.value, this.color, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (var i = 0; i < value; i++)
-          const Icon(Icons.star, color: Colors.yellow),
-        for (var i = value; i < 5; i++)
-          const Icon(Icons.star_border, color: Colors.yellow),
+        for (var i = 0; i < value; i++) Icon(Icons.star, color: color),
+        for (var i = value; i < 5; i++) Icon(Icons.star_border, color: color),
       ],
     );
   }

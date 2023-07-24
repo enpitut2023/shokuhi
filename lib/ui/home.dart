@@ -30,13 +30,17 @@ class _HomeState extends State<Home> {
                   sortKey,
                   (String value){
             setState(() {
-              // TODO: ソート処理を書く
               sortKey = value;
+              shopList.sort((a, b){
+                final ev1 = a.evaluationList.firstWhere((element) => element.name == sortKey);
+                final ev2 = b.evaluationList.firstWhere((element) => element.name == sortKey);
+                return ev2.value.compareTo(ev1.value);
+              });
             });
           }),
         ],
       ),
-      body: ShopList(shopList),
+      body: ShopList(shopList, sortKey),
     );
   }
 }
@@ -53,7 +57,7 @@ class SortDropDownButton extends StatelessWidget {
       onChanged: (String? newValue) {
         if (newValue != null) onChanged(newValue);
       },
-      items: <String>['肉', '魚', '野菜', '冷凍食品', '卵']
+      items: <String>['冷凍食品', '肉', '卵', '魚', '野菜']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,

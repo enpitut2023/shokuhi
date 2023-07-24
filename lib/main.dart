@@ -29,10 +29,10 @@ void main() async {
       runApp(MyApp(evaluationList));
 
     } else {
-      print('サブコレクションは空です。');
+      throw Exception('サブコレクションは空です。');
     }
   }).catchError((error) {
-    print('サブコレクションの取得中にエラーが発生しました: $error');
+    throw Exception('サブコレクションの取得中にエラーが発生しました: $error');
   });
 }
 
@@ -44,60 +44,44 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(evaluationList),
-    );
-  }
-}
+      home: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('エラーが発生しました');
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-class Home extends StatelessWidget {
-  const Home(this.evaluationList,{super.key});
+          Future<List<Shop>> getShops() async {
+            final docs = snapshot.requireData.docs;
 
-  final Map<String, String> evaluationList;
+            return await Future.wait(docs.map<Future<Shop>>((DocumentSnapshot document) async {
+              final data = document.data()! as Map<String, dynamic>;
+              final id = document.id;
+              return Shop.fromMap(data, await getEvaluations(id));
+            }).toList());
+          }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('ケッチー（仮）'),
-        ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('shop_list').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Text('エラーが発生しました');
-            }
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
+          return FutureBuilder<List<Shop>>(
+            future: getShops(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No data available'));
+              }
 
-            Future<List<Shop>> getShops() async {
-              final docs = snapshot.requireData.docs;
-
-              return await Future.wait(docs.map<Future<Shop>>((DocumentSnapshot document) async {
-                final data = document.data()! as Map<String, dynamic>;
-                final id = document.id;
-                return Shop.fromMap(data, await getEvaluations(id));
-              }).toList());
-            }
-
-            return FutureBuilder<List<Shop>>(
-              future: getShops(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No data available'));
-                }
-
-                return Home(
-                    snapshot.data as List<Shop>
-                );
-              },
-            );
-          },
-        )
+              return Home(
+                  snapshot.requireData
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
