@@ -42,8 +42,10 @@ class ShopDetailBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // 営業時間を表示
-                  Text('営業時間',
-                      style: Theme.of(context).textTheme.headlineMedium),
+                  Text(
+                    '営業時間',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                   for (var weekday = 0; weekday < 8; weekday++)
                     buildOpeningHoursWidget(
                       weekday,
@@ -85,6 +87,21 @@ class ShopDetailBody extends StatelessWidget {
                       image: AssetImage('images/${evaluation.name}.png'),
                     ),
                   ],
+                ),
+            ],
+          ),
+          Text('タグ', style: Theme.of(context).textTheme.headlineMedium),
+          Row(
+            children: [
+              for (final comment in shop.comments)
+                Card(
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      comment,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                 ),
             ],
           ),
