@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shokuhi/utils/distance_between.dart';
-import 'dart:math';
 import '../model/shop.dart';
 import 'shop_detail.dart';
 
@@ -60,11 +59,13 @@ class ShopTile extends StatelessWidget {
               // タイトル + 営業時間
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(shop.name,
-                    style: const TextStyle(
-                        fontSize: 23,
-                        fontFamily: 'Murecho',
-                        color: Color(0xFF1a237e))),
+                Flexible(
+                  child: Text(shop.name,
+                      style: const TextStyle(
+                          fontSize: 23,
+                          fontFamily: 'Murecho',
+                          color: Color(0xFF1a237e))),
+                ),
                 Text('$openTime ~ $closeTime'),
               ],
             ),
