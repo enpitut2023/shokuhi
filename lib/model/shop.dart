@@ -31,6 +31,7 @@ class Shop {
           data['shop_open']['Thursday'],
           data['shop_open']['Friday'],
           data['shop_open']['Saturday'],
+          data['shop_open']['holiday'],
         ],
         closeTime = [
           data['shop_close']['Sunday'],
@@ -40,6 +41,7 @@ class Shop {
           data['shop_close']['Thursday'],
           data['shop_close']['Friday'],
           data['shop_close']['Saturday'],
+          data['shop_close']['holiday'],
         ];
 }
 
