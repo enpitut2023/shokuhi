@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-
+import 'package:shokuhi/utils/distance_between.dart';
+import 'dart:math';
 import '../model/shop.dart';
 import 'shop_detail.dart';
 
 class ShopList extends StatelessWidget {
-  const ShopList(this.shopList, this.sortKey, {super.key});
+  const ShopList(this.shopList, this.sortKey, {super.key, required this.longitude, required this.latitude});
 
   final String sortKey;
   final List<Shop> shopList;
+  final double longitude;
+  final double latitude;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,8 @@ class ShopList extends StatelessWidget {
           ShopTile(
             sortKey,
             shop,
+            longitude: longitude,
+            latitude:  latitude,
           ),
       ],
     );
@@ -24,16 +31,18 @@ class ShopList extends StatelessWidget {
 }
 
 class ShopTile extends StatelessWidget {
-  const ShopTile(this.sortKey, this.shop, {super.key});
+  const ShopTile(this.sortKey, this.shop, {super.key, required this.longitude, required this.latitude});
 
   final String sortKey;
   final Shop shop;
+  final double longitude;
+  final double latitude;
 
   @override
   Widget build(BuildContext context) {
     final openTime = shop.openTime[0];
     final closeTime = shop.closeTime[0];
-
+    final distance = distanceBetween(latitude, longitude, shop.latitude, shop.longitude);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -92,6 +101,12 @@ class ShopTile extends StatelessWidget {
                         Text(shop.telephoneNumber),
                       ],
                     ),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on_outlined),
+                        Text('${(distance/1000).toStringAsFixed(2)} km'),
+                      ],
+                    )
                   ],
                 ),
               ],

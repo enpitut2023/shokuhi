@@ -1,18 +1,95 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:shokuhi/ui/shop_list.dart';
 
 import '../model/shop.dart';
 
 class Home extends StatefulWidget {
   const Home(this.shopList, {super.key});
-
   final List<Shop> shopList;
-
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  LocationData? locationData;
+  StreamSubscription<LocationData>? locationSubscription;
+
+  @override
+  void initState() {
+    _getLocation();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    // ここに任意のWidgetを書いて、緯度経度を渡すことでユーザーの位置情報をWidgetで利用できる。
+    final longitude = locationData?.longitude;
+    final latitude = locationData?.latitude;
+    if(longitude != null && latitude != null) {
+      return _Home(widget.shopList, longitude, latitude);
+    } else {
+      return const Center(child: CircularProgressIndicator(),);
+    }
+  }
+
+  @override
+  void dispose() {
+    locationSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _getLocation() async {
+    Location location = Location();
+    location.changeSettings(accuracy: LocationAccuracy.high, interval: 1);
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        throw Exception('service is not enabled');
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        throw Exception('permission is not granted');
+      }
+    }
+
+    final tmp = await location.getLocation();
+    setState(() {
+      locationData = tmp;
+    });
+
+    locationSubscription = location.onLocationChanged.listen((event) {
+      setState(() {
+        locationData = event;
+      });
+    });
+  }
+}
+
+class _Home extends StatefulWidget {
+  const _Home(this.shopList, this.longitude, this.latitude,{super.key});
+
+  final List<Shop> shopList;
+  final double longitude;
+  final double latitude;
+
+  @override
+  State<_Home> createState() => __HomeState();
+}
+
+class __HomeState extends State<_Home> {
 
   var sortKey = '肉';
   var shopList = <Shop>[];
@@ -40,7 +117,7 @@ class _HomeState extends State<Home> {
           }),
         ],
       ),
-      body: ShopList(shopList, sortKey),
+      body: ShopList(shopList, sortKey, longitude: widget.longitude,latitude: widget.latitude,),
     );
   }
 }
