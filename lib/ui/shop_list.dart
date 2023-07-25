@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shokuhi/utils/distance_between.dart';
+import '../model/runnning.dart';
 import '../model/shop.dart';
 import 'shop_detail.dart';
 
@@ -39,8 +40,10 @@ class ShopTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final openTime = shop.openTime[0];
-    final closeTime = shop.closeTime[0];
+    final dayOfWeek = checkDayOfWeek();
+    final openTime = shop.openTime[dayOfWeek];
+    final closeTime = shop.closeTime[dayOfWeek];
+    final running = checkRunning(openTime,closeTime);
     final distance =
         distanceBetween(latitude, longitude, shop.latitude, shop.longitude);
     return GestureDetector(
@@ -66,7 +69,7 @@ class ShopTile extends StatelessWidget {
                           fontFamily: 'Murecho',
                           color: Color(0xFF1a237e))),
                 ),
-                Text('$openTime ~ $closeTime'),
+                (running == '24時間営業') ? Text(running) : Text('${shop.openTime[dayOfWeek]} ~ ${shop.closeTime[dayOfWeek]}($running)'),
               ],
             ),
             Row(
