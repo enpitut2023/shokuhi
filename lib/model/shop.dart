@@ -6,6 +6,7 @@ class Shop {
       required this.telephoneNumber,
       required this.openTime,
       required this.closeTime,
+      required this.comments,
       required this.longitude,
       required this.latitude});
 
@@ -15,6 +16,7 @@ class Shop {
   final String telephoneNumber;
   final List<String> openTime; // 営業開始時間 0:月, 6:日
   final List<String> closeTime; // 営業終了時間 0:月, 6:日
+  final List<String> comments;
   final double longitude, latitude;
 
   Shop.fromMap(Map<String, dynamic> data, this.evaluationList)
@@ -23,6 +25,9 @@ class Shop {
         telephoneNumber = data['shop_tel'],
         longitude = data['longitude'],
         latitude = data['latitude'],
+        comments = (data['comments'] != null)
+            ? [for (final val in data['comments'].values) val]
+            : [],
         openTime = [
           data['shop_open']['Sunday'],
           data['shop_open']['Monday'],
