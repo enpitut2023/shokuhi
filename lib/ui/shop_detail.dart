@@ -44,7 +44,12 @@ class ShopDetailBody extends StatelessWidget {
                   // 営業時間を表示
                   Text('営業時間',
                       style: Theme.of(context).textTheme.headlineMedium),
-                  buildOpeningHoursWidgets(shop.openTime, shop.closeTime),
+                  for (var weekday = 0; weekday < 7; weekday++)
+                    buildOpeningHoursWidget(
+                      weekday,
+                      shop.openTime,
+                      shop.closeTime,
+                    ),
                   // 電話番号を表示
                   Text('電話番号',
                       style: Theme.of(context).textTheme.headlineMedium),
@@ -75,8 +80,9 @@ class ShopDetailBody extends StatelessWidget {
                     CircularEvaluationWidget(
                       name: evaluation.name,
                       number: evaluation.value,
-                      size: min(size.width / (shop.evaluationList.length + 1), 200),
-                      image: const AssetImage('images/肉.png'),
+                      size: min(
+                          size.width / (shop.evaluationList.length + 1), 200),
+                      image: AssetImage('images/${evaluation.name}.png'),
                     ),
                   ],
                 ),
@@ -88,19 +94,15 @@ class ShopDetailBody extends StatelessWidget {
   }
 
   // 営業時間のウィジェットを生成するメソッド
-  Widget buildOpeningHoursWidgets(
-      List<String> openTime, List<String> closeTime) {
+  Widget buildOpeningHoursWidget(
+      int weekday, List<String> openTime, List<String> closeTime) {
     const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
-    List<Widget> openingHoursWidgets = [];
-    for (int i = 0; i < openTime.length; i++) {
-      final open = openTime[i];
-      final close = closeTime[i];
-      final day = daysOfWeek[i];
-      openingHoursWidgets.add(
-        Text('$day: $open 〜 $close'),
-      );
-    }
-    return Column(children: [for (final widget in openingHoursWidgets) widget]);
+    return Text(
+        '${daysOfWeek[weekday]}: ${openTime[weekday]} 〜 ${closeTime[weekday]}',
+        style: TextStyle(
+            color: (weekday == DateTime.now().weekday - 1)
+                ? Colors.blue
+                : Colors.black));
   }
 }
 
@@ -129,8 +131,9 @@ class CircularEvaluationWidget extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: (image != null) ? DecorationImage(image: image!, opacity: 0.45) : null,
+            image: (image != null)
+                ? DecorationImage(image: image!, opacity: 0.45)
+                : null,
           ),
           child: Center(
             child: Text(
