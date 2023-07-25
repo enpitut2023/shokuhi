@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -26,59 +28,67 @@ class ShopDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShopDetail(shop),
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ListView(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 営業時間を表示
+                  Text('営業時間',
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  buildOpeningHoursWidgets(shop.openTime, shop.closeTime),
+                  // 電話番号を表示
+                  Text('電話番号',
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  Text(shop.telephoneNumber),
+                  // 住所を表示
+                  Text('住所', style: Theme.of(context).textTheme.headlineMedium),
+                  Text(shop.address),
+                ],
+              ), //ここにマップを追加する
+              SizedBox(
+                width: min(size.width / 2.5, 300.0),
+                height: min(size.width / 2.5, 300.0),
+                child: MapWidget(shop.longitude, shop.latitude),
+              ),
+            ],
           ),
-        );
-      },
-      child: Card(
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+          Text(
+            '評価',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              for (final evaluation in shop.evaluationList)
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 営業時間を表示
-                    Text('営業時間'),
-                    SizedBox(height: 4),
-                    for (var widget in buildOpeningHoursWidgets(
-                        shop.openTime, shop.closeTime))
-                      widget,
-                    SizedBox(height: 16),
-                    // 電話番号を表示
-                    Text('電話番号'),
-                    SizedBox(height: 4),
-                    Text(shop.telephoneNumber),
-                    SizedBox(height: 16),
-                    // 住所を表示
-                    Text('住所'),
-                    SizedBox(height: 4),
-                    Text(shop.address),
+                    CircularEvaluationWidget(
+                      name: evaluation.name,
+                      number: evaluation.value,
+                      size: min(size.width / (shop.evaluationList.length + 1), 200),
+                      image: const AssetImage('images/肉.png'),
+                    ),
                   ],
-                ), //ここにマップを追加する
-              ],
-            ),
-            const Text('評価'),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [CircularNumberWidget(number: 5)],
-            ),
-          ],
-        ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   // 営業時間のウィジェットを生成するメソッド
-  List<Widget> buildOpeningHoursWidgets(
+  Widget buildOpeningHoursWidgets(
       List<String> openTime, List<String> closeTime) {
     const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
     List<Widget> openingHoursWidgets = [];
@@ -90,40 +100,48 @@ class ShopDetailBody extends StatelessWidget {
         Text('$day: $open 〜 $close'),
       );
     }
-    return openingHoursWidgets;
+    return Column(children: [for (final widget in openingHoursWidgets) widget]);
   }
 }
 
-class CircularNumberWidget extends StatelessWidget {
+class CircularEvaluationWidget extends StatelessWidget {
   final int number;
   final double size;
   final Color color;
+  final String name;
+  final ImageProvider? image;
 
-  const CircularNumberWidget({
+  const CircularEvaluationWidget({
     super.key,
     required this.number,
+    required this.name,
+    this.image,
     this.size = 100.0,
     this.color = Colors.blue,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          '$number',
-          style: const TextStyle(
-            fontSize: 30,
-            color: Colors.white,
+    return Column(
+      children: [
+        Text(name, style: Theme.of(context).textTheme.headlineSmall),
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: (image != null) ? DecorationImage(image: image!, opacity: 0.45) : null,
+          ),
+          child: Center(
+            child: Text(
+              '$number',
+              style: const TextStyle(
+                fontSize: 50,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
