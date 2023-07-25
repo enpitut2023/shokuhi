@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shokuhi/ui/shop_list.dart';
+import 'package:shokuhi/ui/shop_map.dart';
 import 'package:shokuhi/utils/distance_between.dart';
 
 import '../model/shop.dart';
 
 class Home extends StatefulWidget {
   const Home(this.shopList, {super.key});
+
   final List<Shop> shopList;
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -94,14 +97,35 @@ class _Home extends StatefulWidget {
 class __HomeState extends State<_Home> {
   var sortKey = '肉';
   var shopList = <Shop>[];
+  var currentIndex = 0;
+
   @override
   void initState() {
+    super.initState();
     shopList = widget.shopList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'ホーム',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: '地図',
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        currentIndex: currentIndex,
+      ),
       appBar: AppBar(
         title: const Text('SHOKUHI（仮）'),
         actions: [
@@ -126,18 +150,25 @@ class __HomeState extends State<_Home> {
           }),
         ],
       ),
-      body: ShopList(
-        shopList,
-        sortKey,
-        longitude: widget.longitude,
-        latitude: widget.latitude,
-      ),
+      body: (currentIndex == 0)
+          ? ShopList(
+              shopList,
+              sortKey,
+              longitude: widget.longitude,
+              latitude: widget.latitude,
+            )
+          : ShopMap(
+              shopList: shopList,
+              userLongitude: widget.longitude,
+              userLatitude: widget.latitude,
+            ),
     );
   }
 }
 
 class SortDropDownButton extends StatelessWidget {
   const SortDropDownButton(this.sortKey, this.onChanged, {super.key});
+
   final String sortKey;
   final void Function(String) onChanged;
 
