@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shokuhi/ui/shop_list.dart';
+import 'package:shokuhi/ui/shop_map.dart';
 import 'package:shokuhi/utils/distance_between.dart';
 
 import '../model/shop.dart';
 
 class Home extends StatefulWidget {
   const Home(this.shopList, {super.key});
+
   final List<Shop> shopList;
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -81,7 +84,7 @@ class _HomeState extends State<Home> {
 }
 
 class _Home extends StatefulWidget {
-  const _Home(this.shopList, this.longitude, this.latitude, {super.key});
+  const _Home(this.shopList, this.longitude, this.latitude);
 
   final List<Shop> shopList;
   final double longitude;
@@ -92,58 +95,88 @@ class _Home extends StatefulWidget {
 }
 
 class __HomeState extends State<_Home> {
-  var sortKey = '肉';
+  var sortKey = '距離';
   var shopList = <Shop>[];
+  var currentIndex = 0;
+
   @override
   void initState() {
+    super.initState();
     shopList = widget.shopList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'ホーム',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: '地図',
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        currentIndex: currentIndex,
+      ),
       appBar: AppBar(
         title: const Text('SHOKUHI（仮）'),
         actions: [
-          SortDropDownButton(sortKey, (String value) {
-            setState(() {
-              sortKey = value;
-              shopList.sort((a, b) {
-                if (sortKey == '距離') {
-                  final d1 = distanceBetween(widget.latitude, widget.longitude,
-                      a.latitude, a.longitude);
-                  final d2 = distanceBetween(widget.latitude, widget.longitude,
-                      b.latitude, b.longitude);
-                  return d1.compareTo(d2);
-                }
-                final ev1 = a.evaluationList
-                    .firstWhere((element) => element.name == sortKey);
-                final ev2 = b.evaluationList
-                    .firstWhere((element) => element.name == sortKey);
-                return ev2.value.compareTo(ev1.value);
+          if (currentIndex == 0)
+            SortDropDownButton(sortKey, (String value) {
+              setState(() {
+                sortKey = value;
+                shopList.sort((a, b) {
+                  if (sortKey == '距離') {
+                    final d1 = distanceBetween(widget.latitude,
+                        widget.longitude, a.latitude, a.longitude);
+                    final d2 = distanceBetween(widget.latitude,
+                        widget.longitude, b.latitude, b.longitude);
+                    return d1.compareTo(d2);
+                  }
+                  final ev1 = a.evaluationList
+                      .firstWhere((element) => element.name == sortKey);
+                  final ev2 = b.evaluationList
+                      .firstWhere((element) => element.name == sortKey);
+                  return ev2.value.compareTo(ev1.value);
+                });
               });
-            });
-          }),
+            }),
         ],
       ),
-      body: ShopList(
-        shopList,
-        sortKey,
-        longitude: widget.longitude,
-        latitude: widget.latitude,
-      ),
+      body: (currentIndex == 0)
+          ? ShopList(
+              shopList,
+              sortKey,
+              longitude: widget.longitude,
+              latitude: widget.latitude,
+            )
+          : ShopMap(
+              shopList: shopList,
+              userLongitude: widget.longitude,
+              userLatitude: widget.latitude,
+            ),
     );
   }
 }
 
 class SortDropDownButton extends StatelessWidget {
   const SortDropDownButton(this.sortKey, this.onChanged, {super.key});
+
   final String sortKey;
   final void Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      icon: const Icon(Icons.sort),
       value: sortKey,
       onChanged: (String? newValue) {
         if (newValue != null) onChanged(newValue);
