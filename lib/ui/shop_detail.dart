@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../model/shop.dart';
 
 class ShopDetail extends StatelessWidget {
@@ -46,8 +47,8 @@ class ShopDetailBody extends StatelessWidget {
                     // 営業時間を表示
                     Text('営業時間'),
                     SizedBox(height: 4),
-                    for (var widget in buildOpeningHoursWidgets(
-                        shop.openTime, shop.closeTime))
+                    for (var widget
+                    in buildOpeningHoursWidgets(shop.openTime, shop.closeTime))
                       widget,
                     SizedBox(height: 16),
                     // 電話番号を表示
@@ -64,10 +65,13 @@ class ShopDetailBody extends StatelessWidget {
               ],
             ),
             const Text('評価'),
-            Row(
+
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [CircularNumberWidget(number: 5)],
+              children: [
+                CircularNumberWidget(number: 5)
+              ],
             ),
           ],
         ),
@@ -76,8 +80,8 @@ class ShopDetailBody extends StatelessWidget {
   }
 
   // 営業時間のウィジェットを生成するメソッド
-  List<Widget> buildOpeningHoursWidgets(
-      List<String> openTime, List<String> closeTime) {
+  List<Widget> buildOpeningHoursWidgets(List<String> openTime,
+      List<String> closeTime) {
     const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
     List<Widget> openingHoursWidgets = [];
     for (int i = 0; i < openTime.length; i++) {
@@ -97,12 +101,11 @@ class CircularNumberWidget extends StatelessWidget {
   final double size;
   final Color color;
 
-  const CircularNumberWidget({
-    super.key,
+  const CircularNumberWidget({super.key,
     required this.number,
     this.size = 100.0,
     this.color = Colors.blue,
-  });
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -110,51 +113,18 @@ class CircularNumberWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
+      color: color,
+      shape: BoxShape.circle,
       ),
       child: Center(
         child: Text(
-          '$number',
+        '$number',
           style: const TextStyle(
-            fontSize: 30,
-            color: Colors.white,
+          fontSize: 30,
+          color: Colors.white,
           ),
         ),
       ),
-    );
-  }
-}
-
-class MapWidget extends StatelessWidget {
-  const MapWidget(this.longitude, this.latitude, {super.key});
-
-  final double longitude;
-  final double latitude;
-
-  @override
-  Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(latitude, longitude),
-        zoom: 15.2,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
-        ),
-        MarkerLayer(
-          markers: [
-            Marker(
-              point: LatLng(latitude, longitude),
-              builder: (context) {
-                return const Icon(Icons.location_on);
-              },
-            )
-          ],
-        )
-      ],
     );
   }
 }
