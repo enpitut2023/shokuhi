@@ -44,7 +44,7 @@ class ShopDetailBody extends StatelessWidget {
                   // 営業時間を表示
                   Text('営業時間',
                       style: Theme.of(context).textTheme.headlineMedium),
-                  for (var weekday = 0; weekday < 7; weekday++)
+                  for (var weekday = 0; weekday < 8; weekday++)
                     buildOpeningHoursWidget(
                       weekday,
                       shop.openTime,
@@ -96,7 +96,7 @@ class ShopDetailBody extends StatelessWidget {
   // 営業時間のウィジェットを生成するメソッド
   Widget buildOpeningHoursWidget(
       int weekday, List<String> openTime, List<String> closeTime) {
-    const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日'];
+    const daysOfWeek = ['月', '火', '水', '木', '金', '土', '日', '祝'];
     return Text(
         '${daysOfWeek[weekday]}: ${openTime[weekday]} 〜 ${closeTime[weekday]}',
         style: TextStyle(
