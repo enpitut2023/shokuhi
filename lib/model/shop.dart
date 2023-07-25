@@ -41,7 +41,7 @@ class Shop {
           data['shop_close']['Thursday'],
           data['shop_close']['Friday'],
           data['shop_close']['Saturday'],
-          data['shop_open']['holiday'],
+          data['shop_close']['holiday'],
         ];
 }
 
