@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
 }
 
 class _Home extends StatefulWidget {
-  const _Home(this.shopList, this.longitude, this.latitude, {super.key});
+  const _Home(this.shopList, this.longitude, this.latitude);
 
   final List<Shop> shopList;
   final double longitude;
@@ -95,7 +95,7 @@ class _Home extends StatefulWidget {
 }
 
 class __HomeState extends State<_Home> {
-  var sortKey = '肉';
+  var sortKey = '距離';
   var shopList = <Shop>[];
   var currentIndex = 0;
 
@@ -129,25 +129,26 @@ class __HomeState extends State<_Home> {
       appBar: AppBar(
         title: const Text('SHOKUHI（仮）'),
         actions: [
-          SortDropDownButton(sortKey, (String value) {
-            setState(() {
-              sortKey = value;
-              shopList.sort((a, b) {
-                if (sortKey == '距離') {
-                  final d1 = distanceBetween(widget.latitude, widget.longitude,
-                      a.latitude, a.longitude);
-                  final d2 = distanceBetween(widget.latitude, widget.longitude,
-                      b.latitude, b.longitude);
-                  return d1.compareTo(d2);
-                }
-                final ev1 = a.evaluationList
-                    .firstWhere((element) => element.name == sortKey);
-                final ev2 = b.evaluationList
-                    .firstWhere((element) => element.name == sortKey);
-                return ev2.value.compareTo(ev1.value);
+          if (currentIndex == 0)
+            SortDropDownButton(sortKey, (String value) {
+              setState(() {
+                sortKey = value;
+                shopList.sort((a, b) {
+                  if (sortKey == '距離') {
+                    final d1 = distanceBetween(widget.latitude,
+                        widget.longitude, a.latitude, a.longitude);
+                    final d2 = distanceBetween(widget.latitude,
+                        widget.longitude, b.latitude, b.longitude);
+                    return d1.compareTo(d2);
+                  }
+                  final ev1 = a.evaluationList
+                      .firstWhere((element) => element.name == sortKey);
+                  final ev2 = b.evaluationList
+                      .firstWhere((element) => element.name == sortKey);
+                  return ev2.value.compareTo(ev1.value);
+                });
               });
-            });
-          }),
+            }),
         ],
       ),
       body: (currentIndex == 0)
@@ -175,6 +176,7 @@ class SortDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      icon: const Icon(Icons.sort),
       value: sortKey,
       onChanged: (String? newValue) {
         if (newValue != null) onChanged(newValue);
