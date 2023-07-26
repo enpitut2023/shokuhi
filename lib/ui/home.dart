@@ -127,7 +127,7 @@ class __HomeState extends State<_Home> {
         currentIndex: currentIndex,
       ),
       appBar: AppBar(
-        title: const Text('SHOKUHI（仮）'),
+        title: const Text('ケッチー(真)'),
         actions: [
           if (currentIndex == 0)
             SortDropDownButton(sortKey, (String value) {
